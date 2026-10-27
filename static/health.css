@@ -1,0 +1,44 @@
+/* Leakage check: warning banners, condition pills and the separate Leakage check page */
+
+.hb { display: flex; gap: 14px; align-items: flex-start; padding: 16px 20px; border-radius: 14px; margin: 18px 0 4px; border: 1.5px solid; }
+.hb .hb-icon { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 1.1rem; color: #fff; }
+.hb b { display: block; font-size: 1.05rem; margin-bottom: 2px; }
+.hb p { margin: 0; font-size: 0.92rem; line-height: 1.45; }
+.hb.ok { background: #ecfdf3; border-color: #a7e3c0; color: #14532d; }
+.hb.ok .hb-icon { background: #16a34a; }
+.hb.check { background: #fff8eb; border-color: #f3d9a4; color: #7a4d00; }
+.hb.check .hb-icon { background: #d99a00; }
+.hb.damaged { background: #fdf0f8; border-color: #efb3d8; color: #7a1050; }
+.hb.damaged .hb-icon { background: #c81e96; }
+
+.cond { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; }
+.cond.ok { background: #e7f8ee; color: #166534; }
+.cond.check { background: #fff3dc; color: #92400e; }
+.cond.damaged { background: #fbe3f2; color: #9d1770; }
+.an-card.leak b { color: #c81e96; }
+.counter-table td.leaknum b { color: #c81e96; }
+
+.leak-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 22px; margin-top: 24px; align-items: start; }
+.leak-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.leak-imgs figure { margin: 0; }
+.leak-imgs img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; background: #fff; }
+.leak-imgs figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+.leak-result { margin-top: 26px; }
+.leak-table td.why { font-size: 0.86rem; color: var(--muted); }
+.leak-kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 18px; }
+.leak-kinds .card { padding: 16px 18px; }
+.leak-kinds .sw { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; border: 1px solid rgba(0,0,0,.15); }
+.leak-kinds p { margin: 6px 0 0; font-size: 0.88rem; color: var(--muted); line-height: 1.45; }
+.acc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 14px 0; }
+.acc-grid div { background: var(--b50, #f3f7ff); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.acc-grid b { display: block; font-size: 1.6rem; color: var(--b600, #1d5fe0); line-height: 1.1; }
+.acc-grid span { font-size: 0.8rem; color: var(--muted); }
+.bar-row { display: grid; grid-template-columns: 90px 1fr 54px; gap: 10px; align-items: center; font-size: 0.85rem; margin: 6px 0; }
+.bar-row .track { height: 12px; background: #eef1f7; border-radius: 999px; overflow: hidden; }
+.bar-row .track i { display: block; height: 100%; background: #c81e96; border-radius: 999px; }
+.bar-row .v { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 820px) {
+  .leak-hero { grid-template-columns: 1fr; }
+  .leak-imgs { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,44 @@
+{
+ "battery_1_tilted.jpg": {
+  "counts": {
+   "AA battery": 4,
+   "AAA battery": 4,
+   "CR2016 coin cell": 2,
+   "LR44 button cell": 2
+  },
+  "total": 260
+ },
+ "battery_2_touching.jpg": {
+  "counts": {
+   "AA battery": 4,
+   "AAA battery": 4,
+   "CR2016 coin cell": 2,
+   "LR44 button cell": 2
+  },
+  "total": 260
+ },
+ "battery_3_strong_tilt_dim.jpg": {
+  "counts": {
+   "AA battery": 4,
+   "AAA battery": 4,
+   "CR2016 coin cell": 2,
+   "LR44 button cell": 2
+  },
+  "total": 260
+ },
+ "battery_4_leaking.jpg": {
+  "counts": {
+   "AA battery": 4,
+   "AAA battery": 4,
+   "CR2016 coin cell": 2,
+   "LR44 button cell": 2
+  },
+  "total": 260,
+  "leaking": [
+   "AAA battery",
+   "CR2016 coin cell",
+   "LR44 button cell",
+   "AA battery"
+  ]
+ }
+}

@@ -1,0 +1,5 @@
+name,type,size_mm,second_mm,price
+AA battery,cylinder,50.5,14.5,20.00
+AAA battery,cylinder,44.5,10.5,20.00
+CR2016 coin cell,button,20.0,,35.00
+LR44 button cell,button,11.6,,15.00

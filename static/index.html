@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1747b8">
+  <title>Battery Counter</title>
+  <meta name="description" content="Count AA, AAA, CR2016 and LR44 batteries from one photo, measure each one against a credit card and give the total, using classical image processing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/inventory.css">
+  <link rel="stylesheet" href="/static/health.css">
+</head>
+<body>
+
+<header class="band">
+  <h1>Battery Counter</h1>
+</header>
+
+<nav class="subnav" aria-label="Sections">
+  <a href="#home" data-view="home" class="active">Home</a>
+  <a href="#catalogue" data-view="catalogue">Catalogue</a>
+  <a href="#upload" data-view="upload">Upload</a>
+  <a href="#leak" data-view="leak">Leakage check</a>
+  <a href="#pipeline" data-view="pipeline" class="locked" aria-disabled="true">Pipeline</a>
+  <a href="#analysis" data-view="analysis" class="locked" aria-disabled="true">Analysis</a>
+  <a href="#results" data-view="results" class="locked" aria-disabled="true">Results</a>
+</nav>
+
+<main>
+
+  <!-- ===================================================== HOME -->
+  <section id="home" class="view hero">
+    <div class="wrap center">
+      <p class="eyebrow">AA &middot; AAA &middot; CR2016 &middot; LR44</p>
+      <h2 class="display">Count batteries and get the total from one photo</h2>
+      <p class="lede">Put the batteries and a credit card on a sheet of white paper and take a photo from above. The table around the paper does not matter: the paper is found and cropped automatically. Each battery is measured in millimetres against the card, named from the catalogue, counted and priced. It uses classical image processing only, with no AI or machine learning.</p>
+      <a class="btn btn-primary btn-lg" href="#upload" id="getStarted">Get started <span aria-hidden="true">&rarr;</span></a>
+      <div class="stats" id="stats" aria-label="Project summary"></div>
+    </div>
+
+    <div class="wrap">
+      <h3 class="subhead center">What it does</h3>
+      <p class="lede center">Six parts, working one after the other.</p>
+      <div class="feature-grid">
+        <div class="card feature"><span class="num">01</span><h4>Auto-crop</h4><p>Finds the white paper in the photo, cuts away the table around it and straightens it with a perspective warp.</p></div>
+        <div class="card feature"><span class="num">02</span><h4>Scale</h4><p>Finds the credit card (always 85.60 x 53.98 mm) and uses its four corners to turn pixels into true millimetres.</p></div>
+        <div class="card feature"><span class="num">03</span><h4>Measure</h4><p>Sorts each object into cylinder (AA, AAA) or round cell (CR2016, LR44) by shape, and measures its length and diameter.</p></div>
+        <div class="card feature"><span class="num">04</span><h4>Identify</h4><p>Names each battery from the catalogue sizes, with a confidence. Unclear objects are flagged, never guessed.</p></div>
+        <div class="card feature"><span class="num">05</span><h4>Leakage check</h4><p>Looks for white crust and green or rust corrosion at the ends of every battery, and warns you about any that are leaking.</p></div>
+        <div class="card feature"><span class="num">06</span><h4>Count and total</h4><p>How many of each battery, times its price, and the grand total. Download as PDF, CSV or JPG.</p></div>
+      </div>
+
+      <h3 class="subhead center">How well does it work?</h3>
+      <p class="lede center">Tested on drawn scenes so far. Upload your own photo and check the counts by eye.</p>
+      <div class="card panel bench">
+        <p>On drawn test photos with the real sizes (4 AA, 4 AAA, 2 CR2016, 2 LR44 and a card on A4 paper, on a wooden table, camera tilted up to 7 deg; shadows, uneven light, blur, noise and JPEG added, 3 versions, one with two AA cells touching):</p>
+        <ul class="limits-list">
+          <li>&#10003; the paper was found and cropped in 3 of 3</li>
+          <li>&#10003; every battery counted and named correctly in 3 of 3 (total &#8377;260 each time)</li>
+          <li>&#10003; sizes within about 0.5 mm; confidence 79 to 99%</li>
+        </ul>
+        <p class="sub">Drawn scenes show that the method works. Accuracy on phone photos still has to be checked.</p>
+      </div>
+
+      <div class="card panel limits">
+        <h3>Limits</h3>
+        <ul>
+          <li>The credit card must be in the photo, flat, not touching anything. A coloured card works best; a white card on white paper is hard to see.</li>
+          <li>Batteries must lie flat: AA and AAA on their side, coin and button cells face up. A cell standing on its end looks like a small circle.</li>
+          <li>Leave a small gap between batteries. Two cells that touch are split or counted by their combined size, but a gap is always safer.</li>
+          <li>Shiny metal can reflect the light. Avoid a bright lamp straight above; daylight from a window is best.</li>
+        </ul>
+      </div>
+
+      <div class="how">
+        <div><span class="how-n">1</span><b>Lay them out</b><p>White paper, the batteries spread out, the card beside them.</p></div>
+        <div><span class="how-n">2</span><b>Take the photo</b><p>From above. The table can show round the paper; it is cropped away.</p></div>
+        <div><span class="how-n">3</span><b>Get the count</b><p>Watch the steps tick off, check the analysis, and download the total.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== CATALOGUE -->
+  <section id="catalogue" class="view alt" hidden>
+    <div class="wrap">
+      <h2 class="title">Catalogue</h2>
+      <p class="lede">The batteries the counter can name, with their sizes and prices. Change a price by uploading your own CSV.</p>
+
+      <div class="cat-actions card">
+        <div>
+          <b>Current catalogue</b>
+          <p class="muted small" id="catSource"></p>
+        </div>
+        <div class="row" style="margin-top:0">
+          <label class="btn btn-primary" for="catFile">Upload CSV</label>
+          <input type="file" id="catFile" accept=".csv,text/csv" hidden>
+          <button class="btn btn-ghost" id="catHouse" type="button">Reset to batteries</button>
+          <a class="btn btn-ghost" href="/api/catalogue/sample.csv" download>Download as CSV</a>
+        </div>
+      </div>
+      <p class="notice error" id="catError" role="alert" hidden></p>
+      <p class="notice warn" id="catWarn" hidden></p>
+
+      <div class="card panel table-wrap">
+        <table class="metrics cat-table">
+          <thead><tr><th>Battery</th><th>Shape</th><th>Length</th><th>Diameter</th><th>Price each</th></tr></thead>
+          <tbody id="catBody"></tbody>
+        </table>
+      </div>
+      <p class="muted small cat-help">CSV columns: name, type, size_mm, second_mm, price. Type "cylinder" (AA, AAA): size_mm is the length and second_mm the diameter. Type "button" (coin and button cells): size_mm is the diameter and second_mm is left empty.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================== UPLOAD -->
+  <section id="upload" class="view" hidden>
+    <div class="wrap">
+      <h2 class="title">Upload</h2>
+      <p class="lede">Add a photo taken from above, with the batteries and the credit card on white paper. It does not need to be cropped. Upload a file or take one with your camera.</p>
+
+      <div class="source-grid">
+        <div class="card source">
+          <div class="source-head"><span class="badge">A</span><h3>Upload a file</h3></div>
+          <label class="drop" id="drop" tabindex="0">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16"/></svg>
+            <b>Drop a photo here</b>
+            <span>or click to choose a file</span>
+            <small>JPG, PNG, TIFF, WebP or BMP, up to 20 MB</small>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/tiff,image/webp,image/bmp,.tif,.tiff" hidden>
+          </label>
+        </div>
+
+        <div class="card source">
+          <div class="source-head"><span class="badge">B</span><h3>Take a photo</h3></div>
+          <div class="cam" id="cam">
+            <div class="cam-idle" id="camIdle">
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A2 2 0 015 6.5h1.6l1-1.7A1 1 0 018.4 4h7.2a1 1 0 01.8.8l1 1.7H19a2 2 0 012 2V17a2 2 0 01-2 2H5a2 2 0 01-2-2V8.5z"/><circle cx="12" cy="12.5" r="3.2"/></svg>
+              <b>Use your camera</b>
+              <span>Hold the camera above the paper, in even light.</span>
+              <div class="row">
+                <button class="btn btn-primary" id="camOpen" type="button">Open camera</button>
+                <label class="btn btn-ghost" for="phoneInput">Use phone camera</label>
+                <input type="file" id="phoneInput" accept="image/*" capture="environment" hidden>
+              </div>
+            </div>
+            <div class="cam-live" id="camLive" hidden>
+              <video id="camVideo" autoplay playsinline muted></video>
+              <div class="row center">
+                <button class="btn btn-primary" id="camShot" type="button">Capture photo</button>
+                <button class="btn btn-ghost" id="camClose" type="button">Cancel</button>
+              </div>
+            </div>
+            <canvas id="camCanvas" hidden></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card opts photo-tips">
+        <h4>Before you take the photo</h4>
+        <ul class="muted small tips">
+          <li>Any bank, debit, credit or ID card works: they are all 85.60 x 53.98 mm. Put it flat, coloured side up, not touching a battery.</li>
+          <li>Spread the batteries out on white A4 paper. AA and AAA lying on their side, coin cells face up.</li>
+          <li>Take the photo from above. The table around the paper may show; it is cropped away.</li>
+        </ul>
+      </div>
+
+      <div class="samples">
+        <h4>Or try a test photo</h4>
+        <p class="muted small">Drawn photos with 4 AA, 4 AAA, 2 CR2016, 2 LR44 and a card, on paper on a table, with a tilted camera.</p>
+        <div class="sample-row" id="sampleRow"></div>
+      </div>
+
+      <p class="notice error" id="uploadError" role="alert" hidden></p>
+
+      <div class="card preview" id="preview" hidden>
+        <div class="preview-img"><img id="previewImg" alt="Your photo"></div>
+        <div class="preview-info">
+          <h3>Your photo</h3>
+          <p class="muted small">It is read as a grid of pixels. The batteries will be named from the catalogue that is loaded now.</p>
+          <dl class="facts" id="facts"></dl>
+          <div class="row">
+            <button class="btn btn-primary btn-lg" id="startBtn" type="button">Start <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-ghost" id="changeBtn" type="button">Choose another photo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== LEAKAGE CHECK -->
+  <section id="leak" class="view alt" hidden>
+    <div class="wrap">
+      <h2 class="title">Leakage check</h2>
+      <p class="lede">Check old batteries before you use them. Put them on white paper and take a close photo from above. Every battery is checked at its ends (AA, AAA) or on its face and rim (coin and button cells) for leaks. A credit card is optional: with one, the deposit is measured in mm&sup2;.</p>
+
+      <div class="leak-kinds">
+        <div class="card"><b><span class="sw" style="background:#f4ecdc"></span>White crust</b><p>Alkaline leakage (potassium carbonate). Found as bright, almost grey and <i>rough</i> pixels: texture from the median residual.</p></div>
+        <div class="card"><b><span class="sw" style="background:#60ac96"></span>Green-blue corrosion</b><p>Copper salts on old contacts. Found by colour slicing in HSV, ignoring the battery's own wrapper colour.</p></div>
+        <div class="card"><b><span class="sw" style="background:#a0522d"></span>Rust brown</b><p>Corroded steel casing. Colour slicing in HSV, again leaving out the body colour.</p></div>
+        <div class="card"><b><span class="sw" style="background:#fff;border-color:#999"></span>Not a leak: glare</b><p>Shiny metal reflects light and is brighter than the paper. A matte crust cannot be, so glare is found with a top-hat and ignored.</p></div>
+      </div>
+
+      <div class="source-grid" style="margin-top:22px">
+        <div class="card source">
+          <div class="source-head"><span class="badge">A</span><h3>Upload a photo</h3></div>
+          <label class="drop" id="leakDrop" tabindex="0">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 16v2.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V16"/></svg>
+            <b>Drop a photo here</b>
+            <span>or click to choose a file</span>
+            <small>JPG, PNG, TIFF, WebP or BMP, up to 20 MB</small>
+            <input type="file" id="leakFile" accept="image/jpeg,image/png,image/tiff,image/webp,image/bmp,.tif,.tiff" hidden>
+          </label>
+        </div>
+        <div class="card source">
+          <div class="source-head"><span class="badge">B</span><h3>Phone camera or a test photo</h3></div>
+          <div class="cam-idle">
+            <b>Take it with your phone</b>
+            <span>Close up, from above, in even light. Avoid a lamp straight above (glare).</span>
+            <div class="row">
+              <label class="btn btn-primary" for="leakPhone">Use phone camera</label>
+              <input type="file" id="leakPhone" accept="image/*" capture="environment" hidden>
+              <button class="btn btn-ghost" id="leakSample" type="button">Try a test photo with leaks</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="notice error" id="leakError" role="alert" hidden></p>
+      <div id="leakBusy" class="card runbar" hidden style="margin-top:22px"><div class="working"><span class="spin"></span> Checking every battery for leaks...</div></div>
+      <div id="leakBody" class="leak-result"></div>
+      <div id="leakAcc"></div>
+    </div>
+  </section>
+
+  <!-- ===================================================== PIPELINE -->
+  <section id="pipeline" class="view alt" hidden>
+    <div class="wrap">
+      <h2 class="title">Pipeline</h2>
+      <p class="lede">Each step checks the photo, runs or skips itself, and says why. The column on the left ticks each step as it finishes.</p>
+      <div class="pipe-layout">
+        <aside class="progress" aria-label="Progress">
+          <div class="progress-card">
+            <h3>Progress</h3>
+            <ol id="progressList"></ol>
+            <p class="legend"><span class="dot done">&#10003;</span> done <span class="dot skip">&ndash;</span> skipped</p>
+          </div>
+        </aside>
+        <div class="pipe-main">
+          <div class="runbar card">
+            <div class="runbar-top"><b id="runText">Starting...</b><span id="runCount" class="muted small"></span></div>
+            <div class="bar"><i id="barFill"></i></div>
+          </div>
+          <div id="pipeCards" class="pipe-cards"></div>
+          <div class="end-actions" id="pipeEnd" hidden>
+            <button class="btn btn-primary btn-lg" id="toAnalysis" type="button">View the analysis <span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== ANALYSIS -->
+  <section id="analysis" class="view" hidden>
+    <div class="wrap">
+      <h2 class="title">Analysis</h2>
+      <p class="lede">How many of each battery, how they were measured, how sure the counter is, and which objects need a check by hand.</p>
+      <div id="analysisBody"></div>
+      <div class="end-actions">
+        <button class="btn btn-primary btn-lg" id="toResults" type="button">See the total <span aria-hidden="true">&rarr;</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== RESULTS -->
+  <section id="results" class="view alt" hidden>
+    <div class="wrap">
+      <h2 class="title">Results</h2>
+      <p class="lede">The numbered photo, the battery count and the total. Download them as PDF, CSV or JPG.</p>
+      <div id="resultsBody"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Battery Counter &middot; classical image processing only (NumPy, SciPy, OpenCV).</p>
+  <p class="small">Photos larger than 1600 px on the long side are scaled down. Objects that are flagged are never counted in the total, so check them by hand.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

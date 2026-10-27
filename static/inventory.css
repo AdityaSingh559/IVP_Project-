@@ -1,0 +1,64 @@
+/* additions for Smart Inventory Station, on top of the shared style.css */
+.feature-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.limits { margin-top: 22px; }
+.limits ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 0.93rem; }
+.limits li { margin: 4px 0; }
+.bench table.metrics td:first-child { min-width: 150px; }
+.bench .sub { color: var(--muted); font-size: 0.84rem; }
+
+.cat-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; padding: 18px 22px; margin-top: 26px; }
+.table-wrap { overflow-x: auto; margin-top: 18px; }
+.cat-table td { white-space: nowrap; }
+.cat-table td.name { white-space: normal; min-width: 160px; font-weight: 600; }
+.cat-table .sig { font-size: 0.8rem; color: var(--b700); }
+.cat-table .btn { padding: 6px 12px; font-size: 0.82rem; }
+.cat-help { margin-top: 12px; max-width: 80ch; }
+.notice.warn { background: #fff8eb; border: 1px solid #f3d9a4; color: #8a5a00; }
+
+.samples { margin-top: 22px; }
+.sample-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.sample-row button { padding: 0; border: 2px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; overflow: hidden; width: 132px; text-align: left; font: 500 0.72rem var(--sans); color: var(--muted); }
+.sample-row button:hover { border-color: var(--b500); }
+.sample-row img { width: 100%; height: 86px; object-fit: cover; }
+.sample-row span { display: block; padding: 4px 6px; }
+
+.ba-facts { margin-top: 14px; }
+.pill.skipped { background: #eef1f7; color: var(--muted); }
+
+.an-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 26px; }
+.an-card { padding: 16px 18px; }
+.an-card b { display: block; font-size: 2rem; color: var(--b600); line-height: 1.1; }
+.an-card span { font-size: 0.85rem; color: var(--muted); }
+.an-card.flag b { color: #b45309; }
+.an-card.bad b { color: #b91c1c; }
+.st { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; white-space: nowrap; }
+.st.identified { background: var(--b100); color: var(--b700); }
+.st.ambiguous { background: #fff3dc; color: #92400e; }
+.st.unknown { background: #fde8e8; color: #991b1b; }
+.flag-list { list-style: none; padding: 0; margin: 0; }
+.flag-list li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+.flag-list li:last-child { border-bottom: 0; }
+.flag-list small { display: block; color: var(--muted); }
+.parts-table td { font-size: 0.88rem; }
+.annot img { width: 100%; border-radius: 12px; border: 1px solid var(--line); }
+.key { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+.key i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+.res-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 22px; margin-top: 28px; align-items: start; }
+.invoice-table td.num, .invoice-table th.num { text-align: right; }
+.invoice-table tfoot td { font-weight: 700; font-size: 1.05rem; color: var(--b800); border-bottom: 0; }
+.not-charged { margin-top: 16px; padding: 12px 16px; border-radius: 12px; background: #fff8eb; border: 1px solid #f3d9a4; font-size: 0.88rem; color: #6b4500; }
+.not-charged ul { margin: 6px 0 0; padding-left: 18px; }
+
+@media (max-width: 900px) {
+  .res-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .wrap { width: calc(100% - 32px); }
+  .cat-actions { padding: 14px; }
+}
+
+/* battery counter */
+.tips { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+.counter-table tr.zero td { color: var(--muted, #8a94a8); }
+.counter-table td.num b { font-size: 1.1rem; }

@@ -1,0 +1,150 @@
+{
+ "photos": 7,
+ "leaked_batteries": 20,
+ "clean_batteries": 64,
+ "detection_rate": 0.8,
+ "leaking_rate": 0.5,
+ "false_alarm_rate": 0.078,
+ "false_leaking_rate": 0.0,
+ "precision": 0.762,
+ "counts_exact": 5,
+ "by_area": [
+  {
+   "area_mm2": 2.0,
+   "n": 7,
+   "flagged": 0.57,
+   "leaking": 0.0,
+   "mean_abs_area_error_mm2": 0.68
+  },
+  {
+   "area_mm2": 4.0,
+   "n": 11,
+   "flagged": 0.73,
+   "leaking": 0.18,
+   "mean_abs_area_error_mm2": 0.57
+  },
+  {
+   "area_mm2": 8.0,
+   "n": 8,
+   "flagged": 0.88,
+   "leaking": 0.75,
+   "mean_abs_area_error_mm2": 1.02
+  },
+  {
+   "area_mm2": 16.0,
+   "n": 8,
+   "flagged": 1.0,
+   "leaking": 1.0,
+   "mean_abs_area_error_mm2": 3.77
+  }
+ ],
+ "by_kind": {
+  "white": 0.75,
+  "green": 0.83
+ },
+ "confusion": {
+  "leaked": {
+   "ok": 4,
+   "check": 6,
+   "damaged": 10
+  },
+  "clean": {
+   "ok": 59,
+   "check": 5,
+   "damaged": 0
+  }
+ },
+ "all_photos": {
+  "detection_rate": 0.85,
+  "false_alarm_rate": 0.055,
+  "precision": 0.829,
+  "leaked_batteries": 40,
+  "clean_batteries": 128
+ },
+ "photos_detail": [
+  {
+   "photo": "leak_1_white",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 3
+  },
+  {
+   "photo": "leak_2_green",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 5
+  },
+  {
+   "photo": "leak_3_white",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 4
+  },
+  {
+   "photo": "leak_4_green",
+   "count_exact": false,
+   "leaks": 4,
+   "flagged": 4
+  },
+  {
+   "photo": "leak_5_white",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 4
+  },
+  {
+   "photo": "leak_6_green",
+   "count_exact": false,
+   "leaks": 4,
+   "flagged": 7
+  },
+  {
+   "photo": "leak_7_white",
+   "count_exact": false,
+   "leaks": 4,
+   "flagged": 2
+  },
+  {
+   "photo": "leak_8_green",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 3
+  },
+  {
+   "photo": "leak_9_white",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 5
+  },
+  {
+   "photo": "leak_10_green",
+   "count_exact": true,
+   "leaks": 4,
+   "flagged": 3
+  },
+  {
+   "photo": "clean_1",
+   "count_exact": false,
+   "leaks": 0,
+   "flagged": 0
+  },
+  {
+   "photo": "clean_2",
+   "count_exact": false,
+   "leaks": 0,
+   "flagged": 0
+  },
+  {
+   "photo": "clean_3",
+   "count_exact": true,
+   "leaks": 0,
+   "flagged": 1
+  },
+  {
+   "photo": "clean_4",
+   "count_exact": true,
+   "leaks": 0,
+   "flagged": 0
+  }
+ ]
+}
